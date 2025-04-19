@@ -1,0 +1,313 @@
+/* samsung note 20 */
+@media only screen and (-webkit-min-device-pixel-ratio: 2.625) {
+    
+}
+
+
+/* Media Query for Mobile Devices */
+@media (max-width: 480px) {
+h1, h2 {font-size:1.2rem;}
+h3 {font-size: 1rem;}
+h4 {font-size:1.2rem;font-weight: 700;}
+h6 {font-size:1rem;}
+.thanku_bg p{font-size:15px;}
+.thanku_bg img{width:220px;}
+.tick_double ul{columns: 1; -webkit-columns: 1; -moz-columns: 1;}
+.banner-main .carousel-caption {
+    position: inherit;
+    width: 100%!important;
+    background-image: linear-gradient(#f8f2e4, #f8f2e4);
+    padding: 10px;
+    bottom: 0;
+    right: 0!important;
+    left: 0!important;
+	text-align:center;
+}
+.carousel-indicators [data-bs-target]{display:none;}
+.banner-main .carousel-caption h1 {font-size:1.5rem;}
+.banner-main .carousel-caption h3 {font-size:.8rem!important;}
+.banner-main .carousel-item img {height:230px;object-fit:cover;object-position: 50% 0;}
+/* 
+.stellarnav.dark li a { color: #fff!important; } */
+.custom-logo-link{top: 0;left: 0;margin-top:0;}
+.logo-main img{width: 110px;background-color: #fff;}
+.banner-content img{display: none;}
+/* .grid-item{width: 50%!important;}
+.button-group {display: inherit;} */
+.banner-main .banner-content{position: inherit;}
+.categ_div .categ_col img,.best_selling .best_col{width: 100%;margin: 0 auto;}
+.categ_div .launched_fresh{margin-bottom: 1pc;}
+.author_div img {width: 40%;margin-bottom: 20px;margin-top: 10px;}
+.trivia_col_one,.trivia_col img{height: 200px;}
+.author_div .section_title_left{margin-bottom: 2pc;}
+.trivia_col_one .overlay .overlay_txt h3,.trivia_col .overlay .overlay_txt h3{font-size: 13px;}
+.trivia_col .overlay .overlay_txt h5,.trivia_col_one .overlay .overlay_txt h5{font-size: 22px;}
+.trivia_col .overlay .overlay_txt,.trivia_col_one .overlay .overlay_txt{left: 40%;}
+.trivia_col_one{text-align: left;}
+.marquee_div marquee{padding: 0 40px;}
+.marquee_div h3{font-size: 16px;margin: 1.5pc 0 1pc 0;}
+.copy_text{text-align: center;}
+.sectiongap{padding: 20px 0;}
+.bendiv ul img{width: 45px;}
+.bendiv ul h5{font-size: 16px;}
+.section_title_left h3{font-size: 18px;}
+.section_title_left h6{font-size: 12px;font-weight:600;margin-bottom: .2rem;}
+.border_outline{border-right: 0;}
+.banner-main .carousel-caption h2{font-size: 26px;color: #62171b;}
+.button-group .button{font-size: 11px;margin-bottom: 5px;padding: 0.8em 0.6em;}
+.banner-main .carousel-caption p{color: #000;font-weight: 400;}
+.banner-main .carousel-caption h2 span{font-weight: 400;}
+.author_bg{background-size: 50%;}
+.copyright ul{justify-content: space-around;}
+.bendiv{margin: 0 0 1pc 0;}
+footer h4{margin-bottom: 20px;font-size:17px;}
+.topbar .topbar_right, .topbar .topbar_left{float: none;display: table;margin:0 auto;}
+.grid-item .card .card-body{padding: 10px 0;}
+.horizontal img{width: 40px;}
+.horizontal hr {top: 4px;}
+.coming-soon img {height: 120px;}
+.social_icon {
+    position: fixed;
+    top: unset;
+    -webkit-transform: translateY(-50%);
+    -ms-transform: translateY(-50%);
+    transform: unset;
+    z-index: 99;
+    bottom: 0;
+    width: 100%;
+    background: #1e2332;
+    display: flex;
+    left: 0;  
+    margin-right: 0;
+}
+.social_icon .social-button{
+    width:100%;	height:40px;line-height:15px;text-align:center;
+	margin:0 auto;border-radius: 0;
+}
+.social_icon .social-button i{font-size:14px;position: absolute;left: 0;right: 0;line-height: 40px;}
+.social_icon a {
+    display: inline-block;
+    text-align: center;
+    padding: 10px 0;
+    transition: all 0.3s ease;
+    color:#fff;
+    width: 100%;
+	height:auto;
+	line-height:auto;
+	border-radius:0;
+	margin:0;
+}
+.social_icon{border-top: 0;padding-top: 0;}
+.copyright{padding: 5px 30px 45px 30px;}
+.section_title_left h1{font-size: 24px;}
+.about ul{margin-bottom: 20px;}
+.best_selling .view_all{right: 10px;}
+.accordion{margin-bottom: -1pc;}
+.dataTables_wrapper{overflow-x: scroll;}
+.dataTables_wrapper .dataTables_length, .dataTables_wrapper .dataTables_filter{float: left!important;}
+.innerpage {margin-top: 8.5pc;}
+.section-title h3 strong{font-size: 16px;}
+.alternate_column .row:nth-child(odd),.alternate_column .row:nth-child(even){padding: 15px 5px;}
+.about ul li{margin-bottom:4px;}
+.grid-item .card h3, .best_selling .best_col .card h3 {font-size: 12px;font-weight: 600;height: 40px;}
+.best_selling .view_all a {font-size: 12px;}
+.author_div h3 {font-size: 22px;}
+.btn-secondary, .btn-primary {font-size: 12px;}
+.grid-item .card h5 {font-size: 11px;}
+.categ_div .launched_fresh .launch_col {padding: 7px;font-size: 14px;font-weight: 400;}
+.filter-list{display: block;}
+.filter-list button{margin: 2px 0;padding: 0.5em 1em;}
+.filter_col .card .btn-primary{margin-bottom: 10px;padding: 5px 10px;}
+.filter_col{padding: 20px 10px;}
+.filter_col .discount_div{left: -4px;}
+.filter_col .card .card-body {padding: 5px 0;}
+
+.alternate_column h2 {font-size: 22px;}
+.marquee_div{height: 245px;}
+.marquee_div marquee{height: 145px;}
+.message_div img{margin-bottom: 10px;}
+.contact .card{padding: 15px;}
+.contact .card a{float: none;display: block;}
+.contact .card .contact_tel a{border-right: 0;margin-bottom: 5px;}
+.ani_txt h4 {font-size:24px;}
+.ani_txt{position: absolute; bottom: 14px; text-align: center; left: 40%;z-index: 1;}
+
+.banner-main img{ height: 250px;object-fit: cover;object-position:53% 0;}
+.notification .notification_head {font-size: 13px;padding: 14px 10px;}
+.notification .notification_head i {margin-right: 2px;}
+.topbar .topbar_left a {margin-top: 0;}
+.topbar {padding: 4px 0;}
+
+.details_div{width: 100%;padding: 15px;}
+.details_div h4{margin-top: 20px;font-size: 18px;}
+.price_div i {font-size: 18px !important;}
+.price_div {font-size: 20px;}
+.filter_col .card h4 {font-size: 14px;}
+.best_col .btn-primary{margin-bottom: 10px;}
+.filter_col .price_div,.filter_col .price_div span,.filter_col .price_div i,.filter_col .price_div span i,.best_col .price_div,.best_col .price_div i,.best_col .price_div span,.best_col .price_div span i{font-size: 14px!important;}
+.aboutus .w-50, .aboutus .w-25 {width: 100% !important;margin:0 auto 10px auto;}
+.online-order .whitebox p{font-size: 14px;line-height: 24px;}
+.online-order .whitebox a{display: inline-block;font-size: 14px;}
+.left_nav li:before {font-size: 12px;margin: 6px 5px;}
+.bendiv ul {display:flex;text-align: left;}
+.scrollbox, .content_div.box1 {height: 100%;}
+.scrollbox p {padding: 0;hyphens: auto;text-align-last: left;-webkit-hyphens: auto;
+word-spacing: -0.05em;text-align:justify;}
+
+.best_selling .best_col .card h5{height: 55px;}
+.box2{height: 120px;}
+.box2 img{height: 35px;}
+
+}
+  
+
+
+/* Media Query for Iphone SE landscape */
+@media (width:667px) and (height: 375px)
+{
+    .banner-content img{width: 100%;height: 200px;object-fit: cover;}
+    .banner-main .carousel-caption{top: 1pc!important;}
+    .categ_div .launched_fresh{margin-bottom: 20px;}
+    .section_title_left{margin-bottom: 20px;}
+    .author_div img{width: 150px;margin-bottom: 10px;}
+    .filter-list button{padding: 0.5em 1em;font-size: 12px;}
+}
+  
+/* Media Query for low resolution  Tablets, Ipads */
+@media (min-width: 481px) and (max-width: 768px)  and (orientation : portrait){
+
+    p {font-size: .7rem;}
+    h1, h2 {font-size:1.2rem!important;margin-bottom: 5px;}
+    .grid-item{width: 33.33%!important;}
+    .custom-logo-linker{position: absolute;top: 0;}
+    .logo-main img{width: 80px;background-color: #fff;}
+    .banner-main .carousel-caption{top: 3pc;}
+    .navbar{padding: 5px 0;}
+    .innerpage{margin-top: 9pc;}
+    .alternate_column .row:nth-child(odd),.alternate_column .row:nth-child(even){padding: 10px;}
+    .stellarnav.dark.right .menu-toggle{margin-right: 35px;}
+
+    .topbar ul li{margin: 0 5px;}
+    .topbar .topbar_left{margin-left: 22%;}
+
+
+}
+  
+
+  
+  
+/* Media Query for Tablets Ipads portrait mode */
+@media (min-width: 769px) and (max-width: 1024px) and (orientation : portrait) {
+p {font-size: .7rem;}
+h1, h2 {font-size:1.2rem!important;margin-bottom: 5px;}
+.grid-item{width: 33.33%!important;}
+.custom-logo-linker{position: absolute;top: 0;}
+.logo-main img{width: 80px;background-color: #fff;}
+.banner-main .carousel-caption{top: 3pc;}
+.navbar{padding: 5px 0;}
+.innerpage{margin-top: 9pc;}
+.alternate_column .row:nth-child(odd),.alternate_column .row:nth-child(even){padding: 10px;}
+.stellarnav.dark.right .menu-toggle{margin-right: 35px;}
+.message_div img{width: 500px;margin: 10px 0 20px 0;}
+.trivia_col_one{height: 100%;}
+.trivia_col img {height: auto;width: 100%;}
+
+.topbar ul li{margin: 0 5px;}
+.topbar .topbar_left{margin-left: 22%;}
+
+
+}
+ 
+
+
+@media only screen 
+and (min-device-width : 768px) 
+and (max-device-width : 1024px) 
+and (orientation : landscape) {  
+.stellarnav > ul > li > a {
+    padding: 16px 14px!important;
+}
+.innerpage { margin-top: 7pc;}
+.topbar .topbar_left{margin-left: 10%;}
+.banner-main{margin-top: 5pc;}
+
+.topbar ul li{margin: 0 5px;}
+
+
+}
+
+
+@media only screen 
+and (min-device-width : 820px) 
+and (max-device-width : 1180px) 
+and (orientation : landscape) {  
+.stellarnav > ul > li > a {font-size: 13px;padding: 14px !important;}
+.stellarnav > ul > li{margin: 0!important;}
+.logo-main img{width:85px!important;}
+.custom-logo-link{left: -28px;top: -30px;}
+.ani_txt h4 {font-size: 24px;}
+.topbar .topbar_left a {margin-top: 8px;}
+
+
+.innerpage { margin-top: 5pc;}
+.topbar .topbar_left{margin-left: 14%;}
+.banner-main{margin-top: 5pc;}
+
+
+
+
+
+}
+
+
+
+
+/* Media Query for iPAD Pro */
+@media (width: 1024px) and (height: 1366px) and (orientation:portrait){
+
+    .stellarnav > ul > li{margin: 0 25px!important;}
+    .logo-main img{width: 65px!important;}
+    .stellarnav > ul > li > a{padding: 24px 0!important;}
+    .custom-logo-link{top: -5px;left: -30px;}
+   
+  
+} 
+ 
+/* Media Query for Laptops and Desktops */
+@media (min-width: 1025px) and (max-width: 1199px){
+    
+
+}
+  
+   
+/* Media Query for Laptops and Desktops */
+@media (min-width: 1025px) and (max-width: 1366px){
+
+
+} 
+/* Media Query for Large screens */
+@media (min-width: 1200px) {
+.container{max-width: 1220px;}
+
+}
+
+@media (min-width: 1920px)
+{
+	.banner-main img{width:100%;}
+    .container{max-width: 1400px;}
+    .grid-item{width: 20%!important;}
+
+    .stellarnav > ul > li{margin: 0 30px!important;}
+    .offer_div img{width: 100%;}
+    
+}
+
+@media (min-width: 1079px) and (max-width: 1920px){
+
+}
+
+
+
+
+
+
