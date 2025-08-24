@@ -1,0 +1,580 @@
+// change in RouteServiceProvider  [public const HOME = '/dashboard'; ]
+
+// route web.php
+
+<?php
+
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\UserContrioller;
+
+Route::middleware('guest')->group(function() {
+    Route::get('/register', [UserContrioller::class,'register'])->name('register');
+    Route::post('/postregister', [UserContrioller::class,'postregister'])->name('post.register');
+    Route::get('/', [UserContrioller::class,'index'])->name('login');
+    Route::post('/postlogin', [UserContrioller::class,'postlogin'])->name('post.login');
+
+});
+
+Route::middleware('auth')->group(function() {
+    Route::get('dashboard', [UserContrioller::class,'dashboard'])->name('dashboard');
+    Route::get('/logout', [UserContrioller::class,'logout'])->name('logout');
+    Route::middleware('admin')->group(function() {
+            Route::get('addproduct', [UserContrioller::class,'addproduct'])->name('add.product');
+    
+    });
+});
+
+// User Model
+<?php
+
+namespace App\Models;
+
+// use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
+use Laravel\Sanctum\HasApiTokens;
+
+class User extends Authenticatable
+{
+    use HasApiTokens, HasFactory, Notifiable;
+
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array<int, string>
+     */
+    public $timestamps = false;
+    protected $fillable = [
+        'name',
+        'email',
+        'password',
+        'type',
+    ];
+
+    /**
+     * The attributes that should be hidden for serialization.
+     *
+     * @var array<int, string>
+     */
+    protected $hidden = [
+        'password',
+        'remember_token',
+    ];
+
+    /**
+     * The attributes that should be cast.
+     *
+     * @var array<string, string>
+     */
+    protected $casts = [
+        'email_verified_at' => 'datetime',
+    ];
+}
+
+// UserController
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
+use App\Models\User;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Validator;
+
+class UserContrioller extends Controller
+{
+    public function index() {
+        return view('login');
+    }
+
+    public function register() {
+        return view('register');
+    }
+
+    public function postregister(Request $request) {
+        //dd($request->all());
+        $request->validate([
+            'name' => 'required',
+            'email' => 'required|email|unique:users,email',
+            'password' => 'required',
+        ]);
+        try {
+                $data = $request->all();
+                $user = User::create([
+                    'name' => $data['name'],
+                    'email' => $data['email'],
+                    'password' => Hash::make($data['password']),
+                    'type' => '1',
+                ]);
+                /* if (!$user) {
+                    return redirect()->back()->withErrors(['error' => 'Unable to create user, please try again']);
+                } else { */
+                return redirect()->back()->with('success', 'User created successfully');
+              //  }
+        } catch (\Exception $e) {
+            return redirect()->back()->withErrors(['error' => $e->getMessage()]);
+
+        }
+    }
+
+    public function postlogin(Request $request) {
+        $request->validate([
+            'email' => 'required|email',
+            'password' => 'required',
+        ]);
+        $credentials = $request->only('email', 'password');
+        try {
+            if(Auth::attempt($credentials)) {
+                return redirect()->route('dashboard');
+            } else {
+                return redirect()->back()->withErrors(['error' => 'Input correct email and password']);
+
+            }
+        } catch(\Exception $e) {
+            return redirect()->back()->withErrors(['error' => $e->getMessage()]);
+        }
+    }
+
+    public function logout() {
+        Auth::logout();
+        return redirect()->route('login');
+    }
+
+    public function dashboard() {
+        return view('dashboard');
+    }
+
+    public function addproduct() {
+        $type = Auth::user()->type;
+        $users = User::where('type', '<>', $type)->get();
+        return view('addproduct', compact('users'));
+    }
+
+}
+
+// AdminMiddleware
+<?php
+
+namespace App\Http\Middleware;
+
+use Closure;
+use Illuminate\Http\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Illuminate\Support\Facades\Auth;
+
+class AdminMiddleware
+{
+    /**
+     * Handle an incoming request.
+     *
+     * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
+     */
+    public function handle(Request $request, Closure $next): Response
+    {
+        if(Auth::check() && Auth::user()->type == '0') {
+            return $next($request);
+        } else {
+            return redirect()->route('dashboard')->withErrors(['error' => 'Access denied']);
+        }
+    }
+}
+
+
+//-----------------------------------------------------------------------------------------
+
+// login view
+<!DOCTYPE html>
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <title>Laravel</title>
+
+        <!-- Fonts -->
+        <link rel="preconnect" href="https://fonts.bunny.net">
+        <link href="https://fonts.bunny.net/css?family=figtree:400,600&display=swap" rel="stylesheet" />
+
+        <!-- Styles -->
+        <style>
+           
+        </style>
+    </head>
+    <body class="antialiased">
+        <div class="relative sm:flex sm:justify-center sm:items-center min-h-screen bg-dots-darker bg-center bg-gray-100 dark:bg-dots-lighter dark:bg-gray-900 selection:bg-red-500 selection:text-white">
+           
+                <div class="sm:fixed sm:top-0 sm:right-0 p-6 text-right">
+                    
+                </div>
+        
+
+            <div class="max-w-7xl mx-auto p-6 lg:p-8">
+                <div class="flex justify-center">
+                    
+                </div>
+
+                <div class="mt-16">
+                    @if($errors->any())
+                    <div class="alert alert-dander">
+                        <ul>
+                        @foreach($errors->all() as $error)
+                            <li>{{$error}}</li>
+                        @endforeach
+                        </ul>
+                    </div>
+                    @endif
+
+                    @if(session('success'))
+                    <div calss="alert alert-danger"> 
+                        {{session('success')}}
+                    </div>
+                    @endif
+                    <form method="post" action="{{route('post.login')}}">
+                            @csrf
+                        <input type="text" name="email" placeholder="Email" required> </br>
+                        <input type="password" name="password" placeholder="Password" required></br>
+
+                        <button type="submit" >Submit</button> 
+
+                        <a href="{{route('register')}}" >Sign Up</a>
+                    </form>
+                </div>
+
+                
+            </div>
+        </div>
+    </body>
+</html>
+
+// registration view
+<!DOCTYPE html>
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <title>Laravel</title>
+
+        <!-- Fonts -->
+        <link rel="preconnect" href="https://fonts.bunny.net">
+        <link href="https://fonts.bunny.net/css?family=figtree:400,600&display=swap" rel="stylesheet" />
+
+        <!-- Styles -->
+        <style>
+           
+        </style>
+    </head>
+    <body class="antialiased">
+        <div class="relative sm:flex sm:justify-center sm:items-center min-h-screen bg-dots-darker bg-center bg-gray-100 dark:bg-dots-lighter dark:bg-gray-900 selection:bg-red-500 selection:text-white">
+           
+                <div class="sm:fixed sm:top-0 sm:right-0 p-6 text-right">
+                    
+                </div>
+        
+
+            <div class="max-w-7xl mx-auto p-6 lg:p-8">
+                <div class="flex justify-center">
+                   
+                </div>
+
+                <div class="mt-16">
+                    @if($errors->any())
+                    <div class="alert alert-danger" >
+                        <ul>
+                        @foreach($errors->all() as $error)
+                            <li> {{$error}} </li>
+                        @endforeach
+                        </ul>  
+                    </div>
+                    @endif
+                    
+                    @if(session('success'))
+                    <div class="alert alert-danger" >
+                        {{session('success')}}
+                    </div>
+                    @endif
+                    <form method="post" action="{{route('post.register')}}">
+                            @csrf
+                        <input type="text" name="name" placeholder="Full Name" required> </br>
+                        <input type="text" name="email" placeholder="Email" required>
+                        <input type="password" name="password" placeholder="Password" required>
+
+                        <button type="submit" >Submit</button>
+
+                        <a href="{{route('login')}}" >Login</a>
+                    </form>
+                </div>
+
+                
+            </div>
+        </div>
+    </body>
+</html>
+
+// Dashboard view
+<!DOCTYPE html>
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <title>Laravel</title>
+
+        <!-- Fonts -->
+        <link rel="preconnect" href="https://fonts.bunny.net">
+        <link href="https://fonts.bunny.net/css?family=figtree:400,600&display=swap" rel="stylesheet" />
+
+        <!-- Styles -->
+        <style>
+           
+        </style>
+    </head>
+    <body class="antialiased">
+        <div class="relative sm:flex sm:justify-center sm:items-center min-h-screen bg-dots-darker bg-center bg-gray-100 dark:bg-dots-lighter dark:bg-gray-900 selection:bg-red-500 selection:text-white">
+           Dashboard
+                <div class="sm:fixed sm:top-0 sm:right-0 p-6 text-right">
+                    <a href="{{route('logout')}}" > Logout </a>
+                </div>
+        
+
+            <div class="max-w-7xl mx-auto p-6 lg:p-8">
+                <div class="flex justify-center">
+                    @if(auth()->user()->type == '0')
+                    <a href="{{route('add.product')}}">Add Product </a>
+                    @else
+                    Welcome
+                    @endif
+                </div>
+
+                <div class="mt-16">
+                    
+                    @if($errors->any())
+                    <div class="alert alert-dander">
+                        <ul>
+                        @foreach($errors->all() as $error)
+                            <li>{{$error}}</li>
+                        @endforeach
+                        </ul>
+                    </div>
+                    @endif
+
+                    @if(session('success'))
+                    <div calss="alert alert-danger"> 
+                        {{session('success')}}
+                    </div>
+                    @endif
+
+                </div>
+
+                
+            </div>
+        </div>
+    </body>
+</html>
+// Add Product view 
+<!DOCTYPE html>
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <title>Laravel</title>
+
+        <!-- Fonts -->
+        <link rel="preconnect" href="https://fonts.bunny.net">
+        <link href="https://fonts.bunny.net/css?family=figtree:400,600&display=swap" rel="stylesheet" />
+
+        <!-- Styles -->
+        <style>
+           
+        </style>
+    </head>
+    <body class="antialiased">
+        <div class="relative sm:flex sm:justify-center sm:items-center min-h-screen bg-dots-darker bg-center bg-gray-100 dark:bg-dots-lighter dark:bg-gray-900 selection:bg-red-500 selection:text-white">
+           Add Product
+                <div class="sm:fixed sm:top-0 sm:right-0 p-6 text-right">
+                    <a href="{{route('logout')}}" > Logout </a>
+                </div>
+        
+
+            <div class="max-w-7xl mx-auto p-6 lg:p-8">
+                <div class="flex justify-center">
+                    <a href="{{route('dashboard')}}">Dashboard </a>
+                </div>
+
+                <div class="mt-16">
+                    
+                    @if($errors->any())
+                    <div class="alert alert-dander">
+                        <ul>
+                        @foreach($errors->all() as $error)
+                            <li>{{$error}}</li>
+                        @endforeach
+                        </ul>
+                    </div>
+                    @endif
+
+                    @if(session('success'))
+                    <div calss="alert alert-danger"> 
+                        {{session('success')}}
+                    </div>
+                    @endif
+
+                    <table>
+                        <thead>
+                            <th> Name </th>
+                            <th> Email </th>
+                            <th> Type </th>
+                        </thead>
+                    @foreach($users as $user)
+                        <tr> 
+                            <td> {{$user['name']}} </td> 
+                            <td> {{$user['email']}} </td>
+                            <td> {{$user['type']}} </td>   
+                        </tr>
+                    @endforeach
+            </table>
+
+                </div>
+
+                
+            </div>
+        </div>
+    </body>
+</html>
+
+// dashboard view
+<!DOCTYPE html>
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <title>Laravel</title>
+
+        <!-- Fonts -->
+        <link rel="preconnect" href="https://fonts.bunny.net">
+        <link href="https://fonts.bunny.net/css?family=figtree:400,600&display=swap" rel="stylesheet" />
+
+        <!-- Styles -->
+        <style>
+           
+        </style>
+    </head>
+    <body class="antialiased">
+        <div class="relative sm:flex sm:justify-center sm:items-center min-h-screen bg-dots-darker bg-center bg-gray-100 dark:bg-dots-lighter dark:bg-gray-900 selection:bg-red-500 selection:text-white">
+           Dashboard
+                <div class="sm:fixed sm:top-0 sm:right-0 p-6 text-right">
+                    <a href="{{route('logout')}}" > Logout </a>
+                </div>
+        
+
+            <div class="max-w-7xl mx-auto p-6 lg:p-8">
+                <div class="flex justify-center">
+                    @if(auth()->user()->type == '0')
+                    <a href="{{route('add.product')}}">Add Product </a>
+                    @else
+                    Welcome
+                    @endif
+                </div>
+
+                <div class="mt-16">
+                    
+                    @if($errors->any())
+                    <div class="alert alert-dander">
+                        <ul>
+                        @foreach($errors->all() as $error)
+                            <li>{{$error}}</li>
+                        @endforeach
+                        </ul>
+                    </div>
+                    @endif
+
+                    @if(session('success'))
+                    <div calss="alert alert-danger"> 
+                        {{session('success')}}
+                    </div>
+                    @endif
+
+                </div>
+
+                
+            </div>
+        </div>
+    </body>
+</html>
+
+// addproduct view
+<!DOCTYPE html>
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <title>Laravel</title>
+
+        <!-- Fonts -->
+        <link rel="preconnect" href="https://fonts.bunny.net">
+        <link href="https://fonts.bunny.net/css?family=figtree:400,600&display=swap" rel="stylesheet" />
+
+        <!-- Styles -->
+        <style>
+          
+        </style>
+    </head>
+    <body class="antialiased">
+        <div class="relative sm:flex sm:justify-center sm:items-center min-h-screen bg-dots-darker bg-center bg-gray-100 dark:bg-dots-lighter dark:bg-gray-900 selection:bg-red-500 selection:text-white">
+           Add Product
+                <div class="sm:fixed sm:top-0 sm:right-0 p-6 text-right">
+                    <a href="{{route('logout')}}" > Logout </a>
+                </div>
+        
+
+            <div class="max-w-7xl mx-auto p-6 lg:p-8">
+                <div class="flex justify-center">
+                    <a href="{{route('dashboard')}}">Dashboard </a>
+                </div>
+
+                <div class="mt-16">
+                    
+                    @if($errors->any())
+                    <div class="alert alert-dander">
+                        <ul>
+                        @foreach($errors->all() as $error)
+                            <li>{{$error}}</li>
+                        @endforeach
+                        </ul>
+                    </div>
+                    @endif
+
+                    @if(session('success'))
+                    <div calss="alert alert-danger"> 
+                        {{session('success')}}
+                    </div>
+                    @endif
+
+                    <table>
+                        <thead>
+                            <th> Name </th>
+                            <th> Email </th>
+                            <th> Type </th>
+                        </thead>
+                    @foreach($users as $user)
+                        <tr> 
+                            <td> {{$user['name']}} </td> 
+                            <td> {{$user['email']}} </td>
+                            <td> {{$user['type']}} </td>   
+                        </tr>
+                    @endforeach
+            </table>
+
+                </div>
+
+                
+            </div>
+        </div>
+    </body>
+</html>
